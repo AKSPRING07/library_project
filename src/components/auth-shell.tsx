@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { BookOpenCheck, Sparkles, Brain, Library } from "lucide-react";
 import { AIParticles } from "./ai-particles";
+import { ThemeToggle } from "@/components/theme-provider";
 
 export function AuthShell({ children, headline, subheadline }: { children: React.ReactNode; headline: string; subheadline: string }) {
   return (
@@ -12,12 +13,15 @@ export function AuthShell({ children, headline, subheadline }: { children: React
       <div className="relative grid min-h-screen lg:grid-cols-2">
         {/* Left visual side */}
         <div className="relative hidden flex-col justify-between p-10 lg:flex">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-neon-gradient shadow-glow">
-              <BookOpenCheck className="h-5 w-5 text-neon-foreground" />
-            </div>
-            <span className="font-display text-xl font-semibold">Lumina<span className="text-neon">.</span></span>
-          </Link>
+          <div className="flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-neon-gradient shadow-glow">
+                <BookOpenCheck className="h-5 w-5 text-neon-foreground" />
+              </div>
+              <span className="font-display text-xl font-semibold">Lumina<span className="text-neon">.</span></span>
+            </Link>
+            <ThemeToggle />
+          </div>
 
           <div className="relative">
             <motion.div
