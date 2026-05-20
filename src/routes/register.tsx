@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { Shield, BookMarked, GraduationCap, Microscope, ArrowRight, Loader2, CheckCircle2, ArrowLeft } from "lucide-react";
+import { useState, useEffect } from "react";
+import { BookMarked, GraduationCap, Microscope, ArrowRight, Loader2, CheckCircle2, ArrowLeft } from "lucide-react";
 import { AuthShell } from "@/components/auth-shell";
 
 export const Route = createFileRoute("/register")({
@@ -14,13 +14,12 @@ export const Route = createFileRoute("/register")({
   }),
 });
 
-type Role = "admin" | "librarian" | "student" | "scholar";
+type Role = "librarian" | "student" | "staff";
 
 const roleCards: { id: Role; icon: any; title: string; desc: string }[] = [
-  { id: "admin", icon: Shield, title: "Admin", desc: "Govern the institution-wide library platform." },
   { id: "librarian", icon: BookMarked, title: "Librarian", desc: "Manage catalog, loans, and acquisitions." },
   { id: "student", icon: GraduationCap, title: "Student", desc: "Discover, borrow, and learn faster." },
-  { id: "scholar", icon: Microscope, title: "Research Scholar", desc: "Access journals and citation graphs." },
+  { id: "staff", icon: Microscope, title: "Staff", desc: "Access research resources and higher borrowing privileges." },
 ];
 
 function RegisterPage() {
@@ -30,12 +29,25 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    const session = localStorage.getItem("lumina_session");
+    if (session) {
+      try {
+        const parsed = JSON.parse(session);
+        if (parsed.loggedIn && parsed.role) {
+          navigate({ to: `/dashboard/${parsed.role}` });
+        }
+      } catch (err) {}
+    }
+  }, [navigate]);
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
+      localStorage.setItem("lumina_session", JSON.stringify({ loggedIn: true, role: role ?? "student", email: "user@lumina.edu" }));
       setTimeout(() => navigate({ to: "/redirect", search: { role: role ?? "student" } }), 700);
     }, 1100);
   }
@@ -145,13 +157,6 @@ function RegisterPage() {
 
 function RoleFields({ role }: { role: Role }) {
   const sets: Record<Role, { label: string; type?: string; placeholder?: string }[]> = {
-    admin: [
-      { label: "Full name", placeholder: "Jane Doe" },
-      { label: "Institution", placeholder: "Lumina University" },
-      { label: "Admin code", placeholder: "ADM-•••••" },
-      { label: "Email", type: "email", placeholder: "admin@institution.edu" },
-      { label: "Password", type: "password", placeholder: "••••••••" },
-    ],
     librarian: [
       { label: "Employee ID", placeholder: "EMP-00421" },
       { label: "Department", placeholder: "Central Library" },
@@ -167,11 +172,11 @@ function RoleFields({ role }: { role: Role }) {
       { label: "Email", type: "email", placeholder: "alex@university.edu" },
       { label: "Password", type: "password", placeholder: "••••••••" },
     ],
-    scholar: [
-      { label: "Research domain", placeholder: "Quantum Computing" },
-      { label: "Institution", placeholder: "Lumina Research Lab" },
-      { label: "Research ID", placeholder: "RES-2024-118" },
-      { label: "Email", type: "email", placeholder: "scholar@research.org" },
+    staff: [
+      { label: "Full name", placeholder: "Professor John Doe" },
+      { label: "Department", placeholder: "Physics & Astronomy" },
+      { label: "Faculty ID", placeholder: "FAC-9082" },
+      { label: "Email", type: "email", placeholder: "faculty@institution.edu" },
       { label: "Password", type: "password", placeholder: "••••••••" },
     ],
   };

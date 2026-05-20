@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { ShieldCheck } from "lucide-react";
 import { AIParticles } from "@/components/ai-particles";
 
-type Role = "admin" | "librarian" | "student" | "scholar";
+type Role = "librarian" | "student" | "staff";
 
 export const Route = createFileRoute("/redirect")({
   validateSearch: (s: Record<string, unknown>): { role: Role } => ({
@@ -14,17 +14,15 @@ export const Route = createFileRoute("/redirect")({
 });
 
 const target: Record<Role, string> = {
-  admin: "/dashboard/admin",
   librarian: "/dashboard/librarian",
   student: "/dashboard/student",
-  scholar: "/dashboard/scholar",
+  staff: "/dashboard/staff",
 };
 
 const label: Record<Role, string> = {
-  admin: "Admin",
   librarian: "Librarian",
   student: "Student",
-  scholar: "Research Scholar",
+  staff: "Staff",
 };
 
 function RedirectPage() {

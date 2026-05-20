@@ -14,9 +14,8 @@ import { Route as RedirectRouteImport } from './routes/redirect'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardStudentRouteImport } from './routes/dashboard.student'
-import { Route as DashboardScholarRouteImport } from './routes/dashboard.scholar'
+import { Route as DashboardStaffRouteImport } from './routes/dashboard.staff'
 import { Route as DashboardLibrarianRouteImport } from './routes/dashboard.librarian'
-import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -43,19 +42,14 @@ const DashboardStudentRoute = DashboardStudentRouteImport.update({
   path: '/dashboard/student',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardScholarRoute = DashboardScholarRouteImport.update({
-  id: '/dashboard/scholar',
-  path: '/dashboard/scholar',
+const DashboardStaffRoute = DashboardStaffRouteImport.update({
+  id: '/dashboard/staff',
+  path: '/dashboard/staff',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardLibrarianRoute = DashboardLibrarianRouteImport.update({
   id: '/dashboard/librarian',
   path: '/dashboard/librarian',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardAdminRoute = DashboardAdminRouteImport.update({
-  id: '/dashboard/admin',
-  path: '/dashboard/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -64,9 +58,8 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/redirect': typeof RedirectRoute
   '/register': typeof RegisterRoute
-  '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/librarian': typeof DashboardLibrarianRoute
-  '/dashboard/scholar': typeof DashboardScholarRoute
+  '/dashboard/staff': typeof DashboardStaffRoute
   '/dashboard/student': typeof DashboardStudentRoute
 }
 export interface FileRoutesByTo {
@@ -74,9 +67,8 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/redirect': typeof RedirectRoute
   '/register': typeof RegisterRoute
-  '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/librarian': typeof DashboardLibrarianRoute
-  '/dashboard/scholar': typeof DashboardScholarRoute
+  '/dashboard/staff': typeof DashboardStaffRoute
   '/dashboard/student': typeof DashboardStudentRoute
 }
 export interface FileRoutesById {
@@ -85,9 +77,8 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/redirect': typeof RedirectRoute
   '/register': typeof RegisterRoute
-  '/dashboard/admin': typeof DashboardAdminRoute
   '/dashboard/librarian': typeof DashboardLibrarianRoute
-  '/dashboard/scholar': typeof DashboardScholarRoute
+  '/dashboard/staff': typeof DashboardStaffRoute
   '/dashboard/student': typeof DashboardStudentRoute
 }
 export interface FileRouteTypes {
@@ -97,9 +88,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/redirect'
     | '/register'
-    | '/dashboard/admin'
     | '/dashboard/librarian'
-    | '/dashboard/scholar'
+    | '/dashboard/staff'
     | '/dashboard/student'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -107,9 +97,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/redirect'
     | '/register'
-    | '/dashboard/admin'
     | '/dashboard/librarian'
-    | '/dashboard/scholar'
+    | '/dashboard/staff'
     | '/dashboard/student'
   id:
     | '__root__'
@@ -117,9 +106,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/redirect'
     | '/register'
-    | '/dashboard/admin'
     | '/dashboard/librarian'
-    | '/dashboard/scholar'
+    | '/dashboard/staff'
     | '/dashboard/student'
   fileRoutesById: FileRoutesById
 }
@@ -128,9 +116,8 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   RedirectRoute: typeof RedirectRoute
   RegisterRoute: typeof RegisterRoute
-  DashboardAdminRoute: typeof DashboardAdminRoute
   DashboardLibrarianRoute: typeof DashboardLibrarianRoute
-  DashboardScholarRoute: typeof DashboardScholarRoute
+  DashboardStaffRoute: typeof DashboardStaffRoute
   DashboardStudentRoute: typeof DashboardStudentRoute
 }
 
@@ -171,11 +158,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardStudentRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/scholar': {
-      id: '/dashboard/scholar'
-      path: '/dashboard/scholar'
-      fullPath: '/dashboard/scholar'
-      preLoaderRoute: typeof DashboardScholarRouteImport
+    '/dashboard/staff': {
+      id: '/dashboard/staff'
+      path: '/dashboard/staff'
+      fullPath: '/dashboard/staff'
+      preLoaderRoute: typeof DashboardStaffRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/librarian': {
@@ -183,13 +170,6 @@ declare module '@tanstack/react-router' {
       path: '/dashboard/librarian'
       fullPath: '/dashboard/librarian'
       preLoaderRoute: typeof DashboardLibrarianRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard/admin': {
-      id: '/dashboard/admin'
-      path: '/dashboard/admin'
-      fullPath: '/dashboard/admin'
-      preLoaderRoute: typeof DashboardAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -200,11 +180,20 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   RedirectRoute: RedirectRoute,
   RegisterRoute: RegisterRoute,
-  DashboardAdminRoute: DashboardAdminRoute,
   DashboardLibrarianRoute: DashboardLibrarianRoute,
-  DashboardScholarRoute: DashboardScholarRoute,
+  DashboardStaffRoute: DashboardStaffRoute,
   DashboardStudentRoute: DashboardStudentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

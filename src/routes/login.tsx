@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Eye, EyeOff, Mail, Lock, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { AuthShell } from "@/components/auth-shell";
 
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/login")({
   }),
 });
 
-type Role = "librarian" | "student" | "scholar";
+type Role = "librarian" | "student" | "staff";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -26,6 +26,18 @@ function LoginPage() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const session = localStorage.getItem("lumina_session");
+    if (session) {
+      try {
+        const parsed = JSON.parse(session);
+        if (parsed.loggedIn && parsed.role) {
+          navigate({ to: `/dashboard/${parsed.role}` });
+        }
+      } catch (err) {}
+    }
+  }, [navigate]);
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
@@ -34,6 +46,7 @@ function LoginPage() {
     setTimeout(() => {
       setLoading(false);
       setSuccess(true);
+      localStorage.setItem("lumina_session", JSON.stringify({ loggedIn: true, role, email }));
       setTimeout(() => navigate({ to: "/redirect", search: { role } }), 700);
     }, 1100);
   }
@@ -51,7 +64,7 @@ function LoginPage() {
 
         {/* role selector */}
         <div className="mb-5 grid grid-cols-3 gap-1 rounded-xl bg-white/5 p-1 text-xs">
-          {(["librarian", "student", "scholar"] as Role[]).map((r) => (
+          {(["librarian", "student", "staff"] as Role[]).map((r) => (
             <button
               key={r}
               type="button"
