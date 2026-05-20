@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { 
-  BookOpen, Bookmark, Clock, Sparkles, Search, FileText, Bell, Send, CheckCircle2, AlertCircle, RefreshCw, Star, User, Mail, Shield, Check, Info
+  BookOpen, Bookmark, Clock, Sparkles, Search, FileText, Bell, Send, CheckCircle2, AlertCircle, RefreshCw, Star, User, Mail, Shield, Check, Info, Library
 } from "lucide-react";
 import { DashboardShell, StatCard } from "@/components/dashboard-shell";
 import { motion, AnimatePresence } from "framer-motion";
@@ -159,11 +159,44 @@ function StudentDashboard() {
     return matchesSearch && matchesCategory;
   });
 
+  let headerInfo = {
+    title: `Welcome back, ${profileName.split(" ")[0]}`,
+    subtitle: "Real-time view of your student workspace.",
+    accent: "Personalized AI library hub"
+  };
+
+  if (activeTab === "catalog") {
+    headerInfo = {
+      title: "Library Catalog Database",
+      subtitle: "Explore physical books, digital publications, and resource collections.",
+      accent: "Discover new knowledge"
+    };
+  } else if (activeTab === "readers") {
+    headerInfo = {
+      title: "Continue exploring books",
+      subtitle: "Review your reading history and personalized AI recommendations.",
+      accent: "Your reading journey"
+    };
+  } else if (activeTab === "analytics") {
+    headerInfo = {
+      title: `Hey ${profileName.split(" ")[0]}, check your analytics`,
+      subtitle: "Track your reading habits, borrowings, and overdue metrics.",
+      accent: "Data-driven insights"
+    };
+  } else if (activeTab === "settings") {
+    headerInfo = {
+      title: "Account Settings",
+      subtitle: "Manage your profile, preferences, and security.",
+      accent: "Customize your experience"
+    };
+  }
+
   return (
     <DashboardShell 
-      title={`Welcome back, ${profileName.split(" ")[0]}`} 
+      title={headerInfo.title}
+      subtitle={headerInfo.subtitle}
       role="Student" 
-      accent="Personalized AI library hub"
+      accent={headerInfo.accent}
       activeTab={activeTab}
       onTabChange={(tab) => setActiveTab(tab)}
     >

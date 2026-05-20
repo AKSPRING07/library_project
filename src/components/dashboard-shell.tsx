@@ -8,8 +8,8 @@ import { AIParticles } from "./ai-particles";
 import { ThemeToggle } from "@/components/theme-provider";
 
 export function DashboardShell({
-  title, role, children, accent, activeTab, onTabChange,
-}: { title: string; role: string; children: React.ReactNode; accent?: string; activeTab?: string; onTabChange?: (tab: string) => void }) {
+  title, subtitle, role, children, accent, activeTab, onTabChange,
+}: { title: string; subtitle?: string; role: string; children: React.ReactNode; accent?: string; activeTab?: string; onTabChange?: (tab: string) => void }) {
   const [chatOpen, setChatOpen] = useState(false);
   const [chatMessages, setChatMessages] = useState<Array<{ sender: "user" | "lumi"; text: string }>>([
     { sender: "lumi", text: `Hello! I am Lumi, your AI Library Assistant. How can I help you manage your ${role.toLowerCase()} workspace today?` }
@@ -56,12 +56,12 @@ export function DashboardShell({
   ];
 
   return (
-    <div className="relative min-h-screen bg-hero text-foreground">
+    <div className="relative h-screen w-full overflow-hidden bg-hero text-foreground">
       <div className="absolute inset-0 grid-bg opacity-30" />
       <AIParticles count={14} />
-      <div className="relative z-10 flex min-h-screen">
+      <div className="relative z-10 flex h-full">
         {/* Sidebar */}
-        <aside className="hidden w-64 shrink-0 border-r border-white/5 bg-deep/40 p-4 lg:block">
+        <aside className="hidden w-64 shrink-0 flex-col h-full overflow-y-auto border-r border-white/5 bg-deep/40 p-4 lg:flex">
           <Link to="/" className="mb-8 flex items-center gap-2">
             <div className="grid h-9 w-9 place-items-center rounded-xl bg-neon-gradient shadow-glow">
               <BookOpenCheck className="h-4 w-4 text-neon-foreground" />
@@ -90,9 +90,9 @@ export function DashboardShell({
           </div>
         </aside>
 
-        <main className="flex-1">
+        <main className="flex flex-1 flex-col h-screen overflow-hidden">
           {/* Top bar */}
-          <header className="sticky top-0 z-20 flex items-center gap-3 border-b border-white/5 bg-deep/50 px-6 py-3 backdrop-blur">
+          <header className="z-20 flex items-center gap-3 border-b border-white/5 bg-deep/50 px-6 py-3 backdrop-blur shrink-0">
             <div className="flex flex-1 items-center gap-2 rounded-xl glass px-3 py-2 text-xs">
               <Search className="h-3.5 w-3.5 text-muted-foreground" />
               <input placeholder="Ask Lumi anything — books, readers, insights…" className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/60" />
@@ -106,7 +106,7 @@ export function DashboardShell({
           </header>
 
           {/* Content */}
-          <div className="p-6">
+          <div className="flex-1 overflow-y-auto p-6 relative z-0">
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
               <div className="flex flex-wrap items-end justify-between gap-2">
                 <div>
@@ -114,7 +114,7 @@ export function DashboardShell({
                     <Sparkles className="h-3 w-3" /> {accent ?? "AI workspace"}
                   </div>
                   <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight">{title}</h1>
-                  <p className="mt-1 text-sm text-muted-foreground">Real-time view of your {role.toLowerCase()} workspace.</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{subtitle || `Real-time view of your ${role.toLowerCase()} workspace.`}</p>
                 </div>
               </div>
 
