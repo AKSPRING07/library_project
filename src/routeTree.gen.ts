@@ -9,38 +9,154 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as RedirectRouteImport } from './routes/redirect'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardStudentRouteImport } from './routes/dashboard.student'
+import { Route as DashboardScholarRouteImport } from './routes/dashboard.scholar'
+import { Route as DashboardLibrarianRouteImport } from './routes/dashboard.librarian'
+import { Route as DashboardAdminRouteImport } from './routes/dashboard.admin'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RedirectRoute = RedirectRouteImport.update({
+  id: '/redirect',
+  path: '/redirect',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardStudentRoute = DashboardStudentRouteImport.update({
+  id: '/dashboard/student',
+  path: '/dashboard/student',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardScholarRoute = DashboardScholarRouteImport.update({
+  id: '/dashboard/scholar',
+  path: '/dashboard/scholar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardLibrarianRoute = DashboardLibrarianRouteImport.update({
+  id: '/dashboard/librarian',
+  path: '/dashboard/librarian',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardAdminRoute = DashboardAdminRouteImport.update({
+  id: '/dashboard/admin',
+  path: '/dashboard/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/redirect': typeof RedirectRoute
+  '/register': typeof RegisterRoute
+  '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/librarian': typeof DashboardLibrarianRoute
+  '/dashboard/scholar': typeof DashboardScholarRoute
+  '/dashboard/student': typeof DashboardStudentRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/redirect': typeof RedirectRoute
+  '/register': typeof RegisterRoute
+  '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/librarian': typeof DashboardLibrarianRoute
+  '/dashboard/scholar': typeof DashboardScholarRoute
+  '/dashboard/student': typeof DashboardStudentRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/redirect': typeof RedirectRoute
+  '/register': typeof RegisterRoute
+  '/dashboard/admin': typeof DashboardAdminRoute
+  '/dashboard/librarian': typeof DashboardLibrarianRoute
+  '/dashboard/scholar': typeof DashboardScholarRoute
+  '/dashboard/student': typeof DashboardStudentRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/redirect'
+    | '/register'
+    | '/dashboard/admin'
+    | '/dashboard/librarian'
+    | '/dashboard/scholar'
+    | '/dashboard/student'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/redirect'
+    | '/register'
+    | '/dashboard/admin'
+    | '/dashboard/librarian'
+    | '/dashboard/scholar'
+    | '/dashboard/student'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/redirect'
+    | '/register'
+    | '/dashboard/admin'
+    | '/dashboard/librarian'
+    | '/dashboard/scholar'
+    | '/dashboard/student'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginRoute: typeof LoginRoute
+  RedirectRoute: typeof RedirectRoute
+  RegisterRoute: typeof RegisterRoute
+  DashboardAdminRoute: typeof DashboardAdminRoute
+  DashboardLibrarianRoute: typeof DashboardLibrarianRoute
+  DashboardScholarRoute: typeof DashboardScholarRoute
+  DashboardStudentRoute: typeof DashboardStudentRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/redirect': {
+      id: '/redirect'
+      path: '/redirect'
+      fullPath: '/redirect'
+      preLoaderRoute: typeof RedirectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +164,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/student': {
+      id: '/dashboard/student'
+      path: '/dashboard/student'
+      fullPath: '/dashboard/student'
+      preLoaderRoute: typeof DashboardStudentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/scholar': {
+      id: '/dashboard/scholar'
+      path: '/dashboard/scholar'
+      fullPath: '/dashboard/scholar'
+      preLoaderRoute: typeof DashboardScholarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/librarian': {
+      id: '/dashboard/librarian'
+      path: '/dashboard/librarian'
+      fullPath: '/dashboard/librarian'
+      preLoaderRoute: typeof DashboardLibrarianRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/admin': {
+      id: '/dashboard/admin'
+      path: '/dashboard/admin'
+      fullPath: '/dashboard/admin'
+      preLoaderRoute: typeof DashboardAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginRoute: LoginRoute,
+  RedirectRoute: RedirectRoute,
+  RegisterRoute: RegisterRoute,
+  DashboardAdminRoute: DashboardAdminRoute,
+  DashboardLibrarianRoute: DashboardLibrarianRoute,
+  DashboardScholarRoute: DashboardScholarRoute,
+  DashboardStudentRoute: DashboardStudentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
