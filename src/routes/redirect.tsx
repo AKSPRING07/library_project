@@ -28,8 +28,9 @@ const label: Record<Role, string> = {
 };
 
 function RedirectPage() {
-  const { role } = Route.useSearch();
+  const { role } = Route.useSearch() as { role: Role };
   const navigate = useNavigate();
+
 
   useEffect(() => {
     const t = setTimeout(() => navigate({ to: target[role] }), 1700);
