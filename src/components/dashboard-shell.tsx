@@ -5,6 +5,7 @@ import {
   BookOpenCheck, LayoutDashboard, Library, Users, BarChart3, Settings, Bell, Search, Bot, LogOut, Sparkles,
 } from "lucide-react";
 import { AIParticles } from "./ai-particles";
+import { ThemeToggle } from "@/components/theme-provider";
 
 export function DashboardShell({
   title, role, children, accent,
@@ -55,6 +56,7 @@ export function DashboardShell({
               <input placeholder="Ask Lumi anything — books, readers, insights…" className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground/60" />
               <span className="rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-muted-foreground">⌘K</span>
             </div>
+            <ThemeToggle />
             <button className="relative grid h-9 w-9 place-items-center rounded-xl glass">
               <Bell className="h-4 w-4" />
               <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-neon" />
