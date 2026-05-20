@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Menu, X, BookOpenCheck } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-provider";
 
 const links = [
   { label: "Home", to: "/" },
@@ -50,6 +51,7 @@ export function SiteNav() {
           </nav>
 
           <div className="hidden items-center gap-2 md:flex">
+            <ThemeToggle />
             <Link to="/login" className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition hover:text-foreground">
               Login
             </Link>
@@ -61,9 +63,12 @@ export function SiteNav() {
             </Link>
           </div>
 
-          <button className="md:hidden" onClick={() => setOpen((v) => !v)} aria-label="Menu">
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
+            <button onClick={() => setOpen((v) => !v)} aria-label="Menu" className="grid h-9 w-9 place-items-center rounded-xl glass">
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
 
         {open && (
