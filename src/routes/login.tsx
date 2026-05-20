@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Eye, EyeOff, Mail, Lock, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Loader2, CheckCircle2, AlertCircle, X } from "lucide-react";
 import { AuthShell } from "@/components/auth-shell";
 
 export const Route = createFileRoute("/login")({
@@ -16,6 +16,24 @@ export const Route = createFileRoute("/login")({
 
 type Role = "librarian" | "student" | "staff";
 
+interface SocialAccount {
+  name: string;
+  email: string;
+  avatar: string;
+}
+
+const googleAccounts: SocialAccount[] = [
+  { name: "Alex Carter", email: "alex.carter@gmail.com", avatar: "AC" },
+  { name: "Priya Sharma", email: "priya.sharma@gmail.com", avatar: "PS" },
+  { name: "Jordan Lee", email: "jordan.lee@gmail.com", avatar: "JL" },
+];
+
+const microsoftAccounts: SocialAccount[] = [
+  { name: "Alex Carter", email: "alex.carter@outlook.com", avatar: "AC" },
+  { name: "Sam Wilson", email: "sam.wilson@outlook.com", avatar: "SW" },
+  { name: "Taylor Reed", email: "taylor.reed@live.com", avatar: "TR" },
+];
+
 function LoginPage() {
   const navigate = useNavigate();
   const [showPwd, setShowPwd] = useState(false);
@@ -25,6 +43,8 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [socialPicker, setSocialPicker] = useState<"Google" | "Microsoft" | null>(null);
+  const [socialLoading, setSocialLoading] = useState(false);
 
   useEffect(() => {
     const session = localStorage.getItem("lumina_session");
@@ -49,6 +69,20 @@ function LoginPage() {
       localStorage.setItem("lumina_session", JSON.stringify({ loggedIn: true, role, email }));
       setTimeout(() => navigate({ to: "/redirect", search: { role } }), 700);
     }, 1100);
+  }
+
+  function handleSocialAccountSelect(account: SocialAccount) {
+    setSocialLoading(true);
+    setTimeout(() => {
+      setSocialLoading(false);
+      setSocialPicker(null);
+      setSuccess(true);
+      localStorage.setItem(
+        "lumina_session",
+        JSON.stringify({ loggedIn: true, role, email: account.email, name: account.name, provider: socialPicker })
+      );
+      setTimeout(() => navigate({ to: "/redirect", search: { role } }), 700);
+    }, 1200);
   }
 
   return (
@@ -123,13 +157,27 @@ function LoginPage() {
 
           <div className="relative my-2 flex items-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             <div className="flex-1 border-t border-white/10" />
-            <span className="px-3">or continue with email</span>
+            <span className="px-3">or continue with</span>
             <div className="flex-1 border-t border-white/10" />
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <SocialButton provider="Google" />
-            <SocialButton provider="Microsoft" />
+            <button
+              type="button"
+              onClick={() => setSocialPicker("Google")}
+              className="group flex h-10 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 text-sm transition hover:border-neon/30 hover:bg-white/10 hover:shadow-glow"
+            >
+              <GoogleIcon />
+              <span>Google</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSocialPicker("Microsoft")}
+              className="group flex h-10 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 text-sm transition hover:border-neon/30 hover:bg-white/10 hover:shadow-glow"
+            >
+              <MicrosoftIcon />
+              <span>Microsoft</span>
+            </button>
           </div>
 
           <p className="pt-2 text-center text-xs text-muted-foreground">
@@ -138,6 +186,106 @@ function LoginPage() {
           </p>
         </form>
       </div>
+
+      {/* Social Account Picker Modal */}
+      <AnimatePresence>
+        {socialPicker && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            onClick={() => !socialLoading && setSocialPicker(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.92, y: 16 }}
+              transition={{ type: "spring", damping: 22, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#1a1a1a] p-6 shadow-2xl"
+            >
+              {/* Modal Header */}
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  {socialPicker === "Google" ? (
+                    <div className="grid h-10 w-10 place-items-center rounded-xl bg-white">
+                      <GoogleIcon size={22} />
+                    </div>
+                  ) : (
+                    <div className="grid h-10 w-10 place-items-center rounded-xl bg-white">
+                      <MicrosoftIcon size={22} />
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">Sign in with {socialPicker}</h3>
+                    <p className="text-[11px] text-white/50">Choose an account to continue</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => !socialLoading && setSocialPicker(null)}
+                  className="grid h-8 w-8 place-items-center rounded-lg text-white/40 hover:bg-white/10 hover:text-white transition"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* Account List */}
+              <div className="space-y-2">
+                {(socialPicker === "Google" ? googleAccounts : microsoftAccounts).map((account) => (
+                  <button
+                    key={account.email}
+                    onClick={() => handleSocialAccountSelect(account)}
+                    disabled={socialLoading}
+                    className="flex w-full items-center gap-3 rounded-xl border border-white/5 bg-white/5 p-3 text-left transition hover:border-neon/30 hover:bg-white/10 disabled:opacity-50 disabled:cursor-wait"
+                  >
+                    <div
+                      className={`grid h-10 w-10 shrink-0 place-items-center rounded-full text-xs font-bold text-white ${
+                        socialPicker === "Google"
+                          ? "bg-gradient-to-br from-blue-500 to-red-500"
+                          : "bg-gradient-to-br from-[#00A4EF] to-[#7FBA00]"
+                      }`}
+                    >
+                      {account.avatar}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium text-white truncate">{account.name}</div>
+                      <div className="text-[11px] text-white/50 truncate">{account.email}</div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {/* Loading state */}
+              {socialLoading && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-neon/20 bg-neon/5 py-2.5 text-xs text-neon"
+                >
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  Signing in with {socialPicker}…
+                </motion.div>
+              )}
+
+              {/* Use another account */}
+              {!socialLoading && (
+                <div className="mt-4 border-t border-white/10 pt-3">
+                  <p className="text-center text-[11px] text-white/40">
+                    Don't see your account?{" "}
+                    <button
+                      onClick={() => setSocialPicker(null)}
+                      className="text-neon hover:underline"
+                    >
+                      Use a different account
+                    </button>
+                  </p>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AuthShell>
   );
 }
@@ -163,25 +311,25 @@ function Field({
   );
 }
 
-function SocialButton({ provider }: { provider: "Google" | "Microsoft" }) {
+function GoogleIcon({ size = 16 }: { size?: number }) {
   return (
-    <button
-      type="button"
-      className="group flex h-10 items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 text-sm transition hover:border-neon/30 hover:bg-white/10 hover:shadow-glow"
-    >
-      {provider === "Google" ? <GoogleIcon /> : <MicrosoftIcon />}
-      <span>{provider}</span>
-    </button>
+    <svg width={size} height={size} viewBox="0 0 48 48">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+      <path fill="#FBBC05" d="M10.53 28.59a14.5 14.5 0 0 1 0-9.18l-7.98-6.19a24.0 24.0 0 0 0 0 21.56l7.98-6.19z"/>
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+    </svg>
   );
 }
 
-function GoogleIcon() {
+function MicrosoftIcon({ size = 16 }: { size?: number }) {
   return (
-    <svg className="h-4 w-4" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.2 1.4-1.6 4-5.5 4-3.3 0-6-2.7-6-6.1S8.7 5.9 12 5.9c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.8 3.4 14.6 2.5 12 2.5 6.8 2.5 2.6 6.7 2.6 12s4.2 9.5 9.4 9.5c5.4 0 9-3.8 9-9.2 0-.6-.1-1.1-.2-1.6H12z"/></svg>
+    <svg width={size} height={size} viewBox="0 0 23 23">
+      <path fill="#F25022" d="M1 1h10v10H1z"/>
+      <path fill="#7FBA00" d="M12 1h10v10H12z"/>
+      <path fill="#00A4EF" d="M1 12h10v10H1z"/>
+      <path fill="#FFB900" d="M12 12h10v10H12z"/>
+    </svg>
   );
 }
-function MicrosoftIcon() {
-  return (
-    <svg className="h-4 w-4" viewBox="0 0 24 24"><path fill="#F25022" d="M3 3h8v8H3z"/><path fill="#7FBA00" d="M13 3h8v8h-8z"/><path fill="#00A4EF" d="M3 13h8v8H3z"/><path fill="#FFB900" d="M13 13h8v8h-8z"/></svg>
-  );
-}
+
