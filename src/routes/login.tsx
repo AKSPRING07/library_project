@@ -14,7 +14,7 @@ export const Route = createFileRoute("/login")({
   }),
 });
 
-type Role = "admin" | "librarian" | "student" | "scholar";
+type Role = "librarian" | "student" | "scholar";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -50,8 +50,8 @@ function LoginPage() {
         </div>
 
         {/* role selector */}
-        <div className="mb-5 grid grid-cols-4 gap-1 rounded-xl bg-white/5 p-1 text-xs">
-          {(["admin", "librarian", "student", "scholar"] as Role[]).map((r) => (
+        <div className="mb-5 grid grid-cols-3 gap-1 rounded-xl bg-white/5 p-1 text-xs">
+          {(["librarian", "student", "scholar"] as Role[]).map((r) => (
             <button
               key={r}
               type="button"
