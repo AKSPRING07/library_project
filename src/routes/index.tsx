@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   ArrowRight, Sparkles, Bot, Radio, BookOpen, BarChart3, Brain,
-  ShieldCheck, Search, Library, Quote, CheckCircle2, Building2, GraduationCap, FlaskConical,
+  ShieldCheck, Search, Library, Quote, CheckCircle2, GraduationCap, FlaskConical,
 } from "lucide-react";
 import { SiteNav } from "@/components/site-nav";
 import libraryHero from "@/assets/library-hero.jpg";
@@ -271,7 +271,6 @@ function Features() {
 
 function Roles() {
   const roles = [
-    { icon: Building2, role: "Administrators", desc: "System-wide governance, multi-branch oversight, budget control and audits." },
     { icon: BookOpen, role: "Librarians", desc: "Cataloging, circulation, acquisitions and reader services on a single console." },
     { icon: GraduationCap, role: "Students", desc: "Personalized discovery, holds, renewals and AI-curated reading paths." },
     { icon: FlaskConical, role: "Researchers", desc: "Citation graphs, journal access, dataset linking and collaboration tools." },
