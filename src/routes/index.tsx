@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
-  ArrowRight, Sparkles, Bot, Activity, CalendarCheck, Radio, BookOpen, BarChart3, Bell, Brain,
-  ShieldCheck, Search, Library, TrendingUp, Quote,
+  ArrowRight, Sparkles, Bot, Radio, BookOpen, BarChart3, Brain,
+  ShieldCheck, Search, Library, Quote, CheckCircle2, Building2, GraduationCap, FlaskConical,
 } from "lucide-react";
 import { SiteNav } from "@/components/site-nav";
-import { AIParticles } from "@/components/ai-particles";
+import libraryHero from "@/assets/library-hero.jpg";
 
 export const Route = createFileRoute("/")({
   component: Landing,
@@ -24,8 +24,10 @@ function Landing() {
     <div className="min-h-screen bg-background text-foreground">
       <SiteNav />
       <Hero />
-      <Bento />
-      <Solutions />
+      <Trusted />
+      <Features />
+      <Roles />
+      <Workflow />
       <Testimonial />
       <CTA />
       <Footer />
@@ -37,41 +39,127 @@ function Landing() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-hero pt-32 pb-16">
-      <div className="absolute inset-0 grid-bg opacity-30" />
-      <AIParticles count={18} />
-      <div className="pointer-events-none absolute -top-32 left-1/4 h-[500px] w-[800px] rounded-full bg-primary/30 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-20 right-0 h-72 w-72 rounded-full bg-neon/20 blur-3xl" />
+    <section className="relative isolate overflow-hidden">
+      {/* Background image */}
+      <div className="absolute inset-0 -z-10">
+        <img
+          src={libraryHero}
+          alt="Library shelves filled with books"
+          className="h-full w-full object-cover"
+        />
+        {/* Sophisticated layered overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--neon)/0.12,_transparent_60%)]" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-4">
+      <div className="relative mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 pt-36 pb-28 lg:grid-cols-12 lg:pt-44 lg:pb-32">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mx-auto max-w-3xl text-center"
+          transition={{ duration: 0.7 }}
+          className="lg:col-span-7"
         >
-          <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 text-xs text-neon">
-            <Sparkles className="h-3 w-3" /> Adaptive AI · Built for institutions
+          <div className="inline-flex items-center gap-2 rounded-full border border-neon/30 bg-background/60 px-3 py-1 text-[11px] uppercase tracking-[0.18em] text-neon backdrop-blur">
+            <Sparkles className="h-3 w-3" /> AI Library Operating System
           </div>
-          <h1 className="mt-5 font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-            <span className="text-gradient">AI-Powered Smart</span>
+          <h1 className="mt-6 font-display text-5xl font-medium leading-[1.02] tracking-tight sm:text-6xl lg:text-[5.25rem]">
+            The intelligent
             <br />
-            Library Management
+            backbone for
+            <br />
+            <span className="text-gradient italic">modern libraries.</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-muted-foreground">
-            Transforming traditional libraries into intelligent digital knowledge
-            ecosystems — predictive, connected, beautifully unified.
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+            Lumina unifies discovery, circulation and analytics into a single,
+            adaptive platform — engineered for universities, research institutes
+            and national archives.
           </p>
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-            <Link to="/register" className="group inline-flex items-center gap-2 rounded-xl bg-neon-gradient px-5 py-3 text-sm font-medium text-neon-foreground shadow-glow transition hover:scale-[1.02]">
-              Get Started <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <Link
+              to="/register"
+              className="group inline-flex items-center gap-2 rounded-full bg-neon-gradient px-6 py-3.5 text-sm font-medium text-neon-foreground shadow-glow transition hover:scale-[1.02]"
+            >
+              Request a Demo <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
             </Link>
-            <Link to="/login" className="inline-flex items-center gap-2 rounded-xl border border-border bg-background/40 px-5 py-3 text-sm font-medium backdrop-blur transition hover:bg-background/70">
-              Login
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-6 py-3.5 text-sm font-medium backdrop-blur transition hover:bg-background/70"
+            >
+              Sign in to Lumina
             </Link>
-            <a href="#contact" className="inline-flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-muted-foreground transition hover:text-foreground">
-              Request Demo →
-            </a>
+          </div>
+
+          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-xs text-muted-foreground">
+            {[
+              "SOC 2 Type II",
+              "GDPR & FERPA",
+              "SSO / SAML",
+              "99.99% uptime",
+            ].map((b) => (
+              <div key={b} className="flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-neon" /> {b}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Right column — refined floating metric card */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="hidden lg:col-span-5 lg:block"
+        >
+          <div className="relative mt-12">
+            <div className="absolute -inset-6 -z-10 rounded-3xl bg-neon/10 blur-3xl" />
+            <div className="rounded-3xl border border-border bg-background/70 p-6 shadow-elevated backdrop-blur-2xl">
+              <div className="flex items-center justify-between border-b border-border pb-4">
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Library Pulse</div>
+                  <div className="font-display text-lg">Northfield University</div>
+                </div>
+                <span className="inline-flex h-2 w-2 animate-pulse rounded-full bg-neon" />
+              </div>
+              <div className="mt-5 grid grid-cols-3 gap-4">
+                {[
+                  { l: "Active Loans", v: "1,204" },
+                  { l: "Returns Today", v: "982" },
+                  { l: "Reservations", v: "311" },
+                ].map((s) => (
+                  <div key={s.l}>
+                    <div className="font-display text-2xl font-medium">{s.v}</div>
+                    <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{s.l}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-5">
+                <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-wider text-muted-foreground">
+                  <span>Circulation · 12 hrs</span>
+                  <span className="text-neon">+8.2%</span>
+                </div>
+                <div className="flex h-16 items-end gap-1">
+                  {[40, 65, 55, 78, 62, 88, 72, 95, 80, 92, 70, 86].map((h, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ height: 0 }}
+                      animate={{ height: `${h}%` }}
+                      transition={{ delay: 0.6 + i * 0.04, duration: 0.5 }}
+                      className="flex-1 rounded-sm bg-gradient-to-t from-primary/60 to-neon"
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="mt-5 flex items-center gap-3 rounded-xl border border-border bg-background/40 p-3">
+                <div className="grid h-8 w-8 place-items-center rounded-lg bg-neon-gradient">
+                  <Bot className="h-4 w-4 text-neon-foreground" />
+                </div>
+                <div className="text-xs">
+                  <div className="font-medium">Lumi suggested 12 acquisitions</div>
+                  <div className="text-muted-foreground">based on this week's demand</div>
+                </div>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
@@ -79,288 +167,180 @@ function Hero() {
   );
 }
 
-/* ---------------- Bento ---------------- */
+/* ---------------- Trusted strip ---------------- */
 
-function Bento() {
+function Trusted() {
+  const logos = ["Northfield", "Avalon Inst.", "Cambridge Arc.", "Helix Univ.", "Meridian Lib.", "Polaris Edu."];
   return (
-    <section id="features" className="relative py-16">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full glass px-3 py-1 text-xs text-neon">
-              <Sparkles className="h-3 w-3" /> Capabilities
-            </div>
-            <h2 className="mt-3 max-w-xl font-display text-4xl font-semibold tracking-tight sm:text-5xl">
-              One platform. <span className="text-gradient">Every workflow.</span>
-            </h2>
-          </div>
-          <p className="max-w-md text-sm text-muted-foreground">
-            A bento of intelligent modules — each works alone, all sing together.
+    <section className="border-y border-border/60 bg-background/60 py-8">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
+          <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            Trusted by 400+ institutions worldwide
           </p>
-        </div>
-
-        {/* Bento grid */}
-        <div className="grid auto-rows-[180px] grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-6">
-
-          {/* Dashboard mock — large */}
-          <Cell className="col-span-2 row-span-2 md:col-span-3 lg:col-span-4">
-            <DashboardMock />
-          </Cell>
-
-          {/* AI chatbot */}
-          <Cell className="col-span-2 row-span-2 md:col-span-1 lg:col-span-2">
-            <ChatbotMock />
-          </Cell>
-
-          {/* Stat */}
-          <Cell className="col-span-1 row-span-1 lg:col-span-2">
-            <BigStat label="Engagement lift" value="+38%" caption="across 400+ campuses" icon={TrendingUp} />
-          </Cell>
-
-          {/* Recommendation */}
-          <Cell className="col-span-1 row-span-1 lg:col-span-2">
-            <Feature icon={Brain} title="AI Recommendations" desc="Neural ranking on reader behaviour." />
-          </Cell>
-
-          {/* RFID */}
-          <Cell className="col-span-2 row-span-1 lg:col-span-2">
-            <Feature icon={Radio} title="RFID Integration" desc="Tag, scan, audit — zero touch hardware." />
-          </Cell>
-
-          {/* Reservation */}
-          <Cell className="col-span-1 row-span-1">
-            <Feature icon={CalendarCheck} title="Auto Reservations" desc="Predictive holds." compact />
-          </Cell>
-          {/* Tracking */}
-          <Cell className="col-span-1 row-span-1">
-            <Feature icon={Activity} title="Live Tracking" desc="Real-time circulation." compact />
-          </Cell>
-
-          {/* Analytics chart */}
-          <Cell className="col-span-2 row-span-2 lg:col-span-2">
-            <AnalyticsChart />
-          </Cell>
-
-          {/* Notifications */}
-          <Cell className="col-span-1 row-span-1">
-            <Feature icon={Bell} title="Smart Alerts" desc="Context-aware." compact />
-          </Cell>
-          {/* Digital journals */}
-          <Cell className="col-span-1 row-span-1">
-            <Feature icon={BookOpen} title="Journals" desc="E-journals & theses." compact />
-          </Cell>
-
-          {/* Search */}
-          <Cell className="col-span-2 row-span-1 lg:col-span-2">
-            <SearchMock />
-          </Cell>
-
-          {/* Trust */}
-          <Cell className="col-span-2 row-span-1 lg:col-span-2">
-            <Feature icon={ShieldCheck} title="Enterprise-grade" desc="SOC 2 Type II · GDPR · FERPA compliant." />
-          </Cell>
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+            {logos.map((l) => (
+              <span key={l} className="font-display text-sm tracking-wide text-muted-foreground/80">
+                {l}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Cell({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.45 }}
-      whileHover={{ y: -3 }}
-      className={`group relative overflow-hidden rounded-2xl glass p-4 transition hover:border-neon/40 ${className}`}
-    >
-      <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-neon/0 blur-2xl transition-all duration-500 group-hover:bg-neon/15" />
-      <div className="relative flex h-full flex-col">{children}</div>
-    </motion.div>
-  );
-}
+/* ---------------- Features ---------------- */
 
-function Feature({ icon: Icon, title, desc, compact }: { icon: any; title: string; desc: string; compact?: boolean }) {
-  return (
-    <div className="flex h-full flex-col justify-between">
-      <div className="grid h-9 w-9 place-items-center rounded-xl bg-background/60 text-neon ring-1 ring-border transition group-hover:bg-neon-gradient group-hover:text-neon-foreground">
-        <Icon className="h-4 w-4" />
-      </div>
-      <div>
-        <h3 className={`font-display font-semibold ${compact ? "text-sm" : "text-base"}`}>{title}</h3>
-        <p className={`mt-1 text-muted-foreground ${compact ? "text-[11px]" : "text-xs"}`}>{desc}</p>
-      </div>
-    </div>
-  );
-}
+const featureList = [
+  {
+    icon: Brain,
+    title: "Adaptive Recommendations",
+    desc: "Neural ranking learns from every borrowing pattern, surfacing the right title to the right reader.",
+  },
+  {
+    icon: Search,
+    title: "Unified Discovery",
+    desc: "One search across catalog, e-journals, theses and external indices — with semantic understanding.",
+  },
+  {
+    icon: Radio,
+    title: "RFID & IoT Circulation",
+    desc: "Zero-touch check-in, anti-theft gates and shelf intelligence integrated into one fabric.",
+  },
+  {
+    icon: BarChart3,
+    title: "Executive Analytics",
+    desc: "Real-time dashboards on engagement, collections health and ROI — exportable for boards.",
+  },
+  {
+    icon: Bot,
+    title: "Lumi AI Assistant",
+    desc: "Conversational agent for librarians and patrons. Reserve, recommend and resolve in seconds.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Enterprise Security",
+    desc: "SOC 2 Type II, GDPR and FERPA aligned. SSO, SAML, role-based access and full audit trail.",
+  },
+];
 
-function BigStat({ label, value, caption, icon: Icon }: { label: string; value: string; caption: string; icon: any }) {
+function Features() {
   return (
-    <div className="flex h-full flex-col justify-between">
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <span>{label}</span>
-        <span className="text-neon"><Icon className="h-4 w-4" /></span>
-      </div>
-      <div>
-        <div className="font-display text-4xl font-semibold text-gradient">{value}</div>
-        <div className="mt-1 text-[11px] text-muted-foreground">{caption}</div>
-      </div>
-    </div>
-  );
-}
-
-function DashboardMock() {
-  return (
-    <>
-      <div className="flex items-center gap-1.5 pb-3">
-        <span className="h-2 w-2 rounded-full bg-red-400/70" />
-        <span className="h-2 w-2 rounded-full bg-yellow-400/70" />
-        <span className="h-2 w-2 rounded-full bg-green-400/70" />
-        <div className="ml-3 flex flex-1 items-center gap-2 rounded-md bg-background/40 px-2 py-1 text-[10px] text-muted-foreground">
-          <Search className="h-3 w-3" /> Search the knowledge graph…
+    <section id="features" className="relative py-28">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="max-w-2xl">
+          <div className="text-xs uppercase tracking-[0.22em] text-neon">Platform</div>
+          <h2 className="mt-3 font-display text-4xl font-medium tracking-tight sm:text-5xl">
+            Engineered for the entire library workflow.
+          </h2>
+          <p className="mt-4 text-muted-foreground">
+            Six tightly integrated modules replace the patchwork of legacy ILS,
+            discovery layers and analytics tools.
+          </p>
         </div>
-      </div>
-      <div className="grid flex-1 grid-cols-12 gap-2">
-        <div className="col-span-3 space-y-1.5 rounded-lg bg-background/40 p-2">
-          {["Overview", "Catalog", "Loans", "Insights", "Settings"].map((i, idx) => (
-            <div key={i} className={`rounded px-2 py-1 text-[10px] ${idx === 3 ? "bg-neon-gradient text-neon-foreground" : "text-muted-foreground"}`}>{i}</div>
+
+        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
+          {featureList.map((f, i) => (
+            <motion.div
+              key={f.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
+              className="group relative bg-background p-8 transition hover:bg-accent/30"
+            >
+              <div className="grid h-11 w-11 place-items-center rounded-xl border border-border bg-background text-neon transition group-hover:border-neon/40">
+                <f.icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-6 font-display text-xl font-medium">{f.title}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
+              <div className="mt-6 inline-flex items-center gap-1 text-xs text-neon opacity-0 transition group-hover:opacity-100">
+                Learn more <ArrowRight className="h-3 w-3" />
+              </div>
+            </motion.div>
           ))}
         </div>
-        <div className="col-span-9 grid grid-cols-3 gap-2">
-          {[
-            { l: "Loans", v: "1,204", d: "+2.1%" },
-            { l: "Returns", v: "982", d: "On time" },
-            { l: "Holds", v: "311", d: "+24" },
-          ].map((s) => (
-            <div key={s.l} className="rounded-lg bg-background/40 p-2">
-              <div className="text-[9px] uppercase tracking-wide text-muted-foreground">{s.l}</div>
-              <div className="font-display text-sm font-semibold">{s.v}</div>
-              <div className="text-[9px] text-neon">{s.d}</div>
-            </div>
-          ))}
-          <div className="col-span-3 rounded-lg bg-background/40 p-2">
-            <div className="mb-1 flex items-center justify-between text-[9px] text-muted-foreground">
-              <span>Circulation pulse</span><span className="text-neon">Live</span>
-            </div>
-            <Bars />
-          </div>
-        </div>
       </div>
-    </>
+    </section>
   );
 }
 
-function Bars() {
-  const bars = [40, 65, 55, 78, 62, 88, 72, 95, 80, 92, 70, 86];
-  return (
-    <div className="flex h-12 items-end gap-1">
-      {bars.map((h, i) => (
-        <motion.div
-          key={i}
-          initial={{ height: 0 }}
-          whileInView={{ height: `${h}%` }}
-          viewport={{ once: true }}
-          transition={{ delay: i * 0.04, duration: 0.5 }}
-          className="flex-1 rounded-t bg-gradient-to-t from-primary to-neon"
-          style={{ minHeight: 3 }}
-        />
-      ))}
-    </div>
-  );
-}
+/* ---------------- Roles ---------------- */
 
-function ChatbotMock() {
-  return (
-    <>
-      <div className="flex items-center gap-2 border-b border-border pb-2">
-        <div className="grid h-7 w-7 place-items-center rounded-lg bg-neon-gradient"><Bot className="h-3.5 w-3.5 text-neon-foreground" /></div>
-        <div>
-          <div className="text-[11px] font-medium">Lumi Assistant</div>
-          <div className="text-[10px] text-neon">online · AI agent</div>
-        </div>
-      </div>
-      <div className="mt-2 flex-1 space-y-2 overflow-hidden">
-        <div className="rounded-lg bg-background/40 p-2 text-[11px] text-muted-foreground">
-          "Trending ML books for grads?"
-        </div>
-        <div className="rounded-lg bg-neon/10 p-2 text-[11px]">
-          Found 12 titles. Top pick: <span className="text-neon">Probabilistic ML — Murphy</span>.
-        </div>
-        <div className="rounded-lg bg-background/40 p-2 text-[11px] text-muted-foreground">
-          "Reserve 3 copies for next week."
-        </div>
-        <div className="rounded-lg bg-neon/10 p-2 text-[11px]">
-          Done. Notified 3 students on the waitlist.
-        </div>
-      </div>
-      <div className="mt-2 flex items-center gap-2 rounded-lg bg-background/40 px-2 py-1.5 text-[10px] text-muted-foreground">
-        <span className="flex-1">Ask anything…</span>
-        <span className="rounded bg-background/60 px-1.5 py-0.5">↵</span>
-      </div>
-    </>
-  );
-}
-
-function AnalyticsChart() {
-  return (
-    <>
-      <div className="flex items-center justify-between text-xs">
-        <span className="text-muted-foreground">Reader engagement</span>
-        <span className="text-neon"><BarChart3 className="h-4 w-4" /></span>
-      </div>
-      <div className="mt-2 flex-1">
-        <div className="font-display text-3xl font-semibold">12,418</div>
-        <div className="text-[10px] text-muted-foreground">Active this week · +8.2%</div>
-      </div>
-      <Bars />
-    </>
-  );
-}
-
-function SearchMock() {
-  return (
-    <>
-      <div className="flex items-center gap-2 rounded-lg bg-background/40 px-3 py-2 text-xs">
-        <Search className="h-3.5 w-3.5 text-neon" />
-        <span className="flex-1 truncate text-muted-foreground">"books about distributed systems"</span>
-        <span className="rounded bg-background/60 px-1.5 py-0.5 text-[10px]">AI</span>
-      </div>
-      <div className="mt-2 flex-1 space-y-1.5">
-        {["Designing Data-Intensive Apps", "Distributed Systems — Tanenbaum", "Database Internals"].map((b) => (
-          <div key={b} className="flex items-center justify-between rounded bg-background/30 px-2 py-1 text-[11px]">
-            <span>{b}</span><span className="text-neon">98%</span>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-}
-
-/* ---------------- Solutions ---------------- */
-
-function Solutions() {
-  const items = [
-    { role: "Admin", desc: "System-wide governance, audits and budget control." },
-    { role: "Librarian", desc: "Cataloging, circulation, and acquisitions on autopilot." },
-    { role: "Student", desc: "Personalized discovery, reservations, and reading paths." },
-    { role: "Researcher", desc: "Citation graph, journal access and collaboration tools." },
+function Roles() {
+  const roles = [
+    { icon: Building2, role: "Administrators", desc: "System-wide governance, multi-branch oversight, budget control and audits." },
+    { icon: BookOpen, role: "Librarians", desc: "Cataloging, circulation, acquisitions and reader services on a single console." },
+    { icon: GraduationCap, role: "Students", desc: "Personalized discovery, holds, renewals and AI-curated reading paths." },
+    { icon: FlaskConical, role: "Researchers", desc: "Citation graphs, journal access, dataset linking and collaboration tools." },
   ];
   return (
-    <section id="solutions" className="relative py-20">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">Built for every role.</h2>
-          <p className="mt-3 text-muted-foreground">Each persona gets a tailored interface and intelligent workflows.</p>
+    <section id="solutions" className="relative border-t border-border bg-deep py-28">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="flex flex-wrap items-end justify-between gap-8">
+          <div className="max-w-xl">
+            <div className="text-xs uppercase tracking-[0.22em] text-neon">Solutions</div>
+            <h2 className="mt-3 font-display text-4xl font-medium tracking-tight sm:text-5xl">
+              A tailored surface for every role.
+            </h2>
+          </div>
+          <p className="max-w-md text-muted-foreground">
+            From the dean's executive view to the student's reading list — every persona
+            gets workflows shaped to their day.
+          </p>
         </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {items.map((i) => (
-            <div key={i.role} className="rounded-2xl glass p-5">
-              <div className="font-display text-lg font-semibold">{i.role}</div>
-              <p className="mt-2 text-sm text-muted-foreground">{i.desc}</p>
-              <Link to="/login" className="mt-4 inline-flex items-center gap-1 text-xs text-neon hover:underline">
-                Explore dashboard →
+
+        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {roles.map((r) => (
+            <div
+              key={r.role}
+              className="group relative flex flex-col rounded-2xl border border-border bg-background/60 p-7 backdrop-blur transition hover:-translate-y-1 hover:border-neon/40 hover:shadow-elevated"
+            >
+              <div className="grid h-11 w-11 place-items-center rounded-xl bg-neon-gradient text-neon-foreground">
+                <r.icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-6 font-display text-lg font-medium">{r.role}</h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{r.desc}</p>
+              <Link
+                to="/login"
+                className="mt-6 inline-flex items-center gap-1 text-xs uppercase tracking-wider text-neon"
+              >
+                Explore dashboard <ArrowRight className="h-3 w-3" />
               </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------------- Workflow ---------------- */
+
+function Workflow() {
+  const steps = [
+    { n: "01", t: "Connect", d: "Import MARC records, link e-resources and integrate SSO in under a day." },
+    { n: "02", t: "Configure", d: "Define branches, roles and circulation rules with declarative policies." },
+    { n: "03", t: "Activate AI", d: "Train Lumi on your corpus — recommendations and search go live instantly." },
+    { n: "04", t: "Operate", d: "Run circulation, analytics and acquisitions from one calm command center." },
+  ];
+  return (
+    <section className="relative py-28">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="max-w-2xl">
+          <div className="text-xs uppercase tracking-[0.22em] text-neon">Implementation</div>
+          <h2 className="mt-3 font-display text-4xl font-medium tracking-tight sm:text-5xl">
+            From legacy ILS to Lumina in four weeks.
+          </h2>
+        </div>
+        <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border bg-border md:grid-cols-2 lg:grid-cols-4">
+          {steps.map((s) => (
+            <div key={s.n} className="bg-background p-8">
+              <div className="font-display text-sm tracking-[0.3em] text-neon">{s.n}</div>
+              <h3 className="mt-4 font-display text-xl font-medium">{s.t}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.d}</p>
             </div>
           ))}
         </div>
@@ -373,20 +353,20 @@ function Solutions() {
 
 function Testimonial() {
   return (
-    <section className="relative py-20">
-      <div className="mx-auto max-w-4xl px-4">
-        <div className="rounded-3xl glass-strong p-10 text-center shadow-elevated">
-          <Quote className="mx-auto h-6 w-6 text-neon" />
-          <p className="mx-auto mt-4 max-w-2xl font-display text-2xl leading-snug">
-            "Lumina turned six fragmented systems into one intelligent surface.
-            Our circulation went up <span className="text-gradient">38%</span> in a single semester."
-          </p>
-          <div className="mt-6 flex items-center justify-center gap-3 text-sm">
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-neon-gradient text-neon-foreground font-semibold">PM</div>
-            <div className="text-left">
-              <div className="font-medium">Dr. Priya Menon</div>
-              <div className="text-xs text-muted-foreground">Director of Libraries · Northfield University</div>
-            </div>
+    <section className="relative border-t border-border bg-deep py-24">
+      <div className="mx-auto max-w-4xl px-6 text-center">
+        <Quote className="mx-auto h-7 w-7 text-neon" />
+        <blockquote className="mx-auto mt-6 max-w-3xl font-display text-2xl leading-snug sm:text-3xl">
+          Lumina turned six fragmented systems into one intelligent surface.
+          Our circulation went up <span className="text-gradient italic">38%</span> in a single semester.
+        </blockquote>
+        <div className="mt-8 flex items-center justify-center gap-3 text-sm">
+          <div className="grid h-10 w-10 place-items-center rounded-full bg-neon-gradient font-medium text-neon-foreground">
+            PM
+          </div>
+          <div className="text-left">
+            <div className="font-medium">Dr. Priya Menon</div>
+            <div className="text-xs text-muted-foreground">Director of Libraries · Northfield University</div>
           </div>
         </div>
       </div>
@@ -398,24 +378,36 @@ function Testimonial() {
 
 function CTA() {
   return (
-    <section id="contact" className="relative py-20">
-      <div className="mx-auto max-w-5xl px-4">
-        <div className="relative overflow-hidden rounded-3xl glass-strong p-10 text-center shadow-elevated">
-          <div className="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-neon/20 blur-3xl" />
-          <div className="pointer-events-none absolute -right-20 -bottom-20 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
-          <h2 className="font-display text-4xl font-semibold sm:text-5xl">
-            Bring your library <span className="text-gradient">into the future</span>.
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Join hundreds of institutions modernizing their knowledge infrastructure with Lumina.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link to="/register" className="rounded-xl bg-neon-gradient px-5 py-3 text-sm font-medium text-neon-foreground shadow-glow">
-              Start Free Trial
-            </Link>
-            <Link to="/login" className="rounded-xl border border-border bg-background/40 px-5 py-3 text-sm font-medium">
-              Sign In
-            </Link>
+    <section id="contact" className="relative py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-background via-background to-accent/40 p-12 shadow-elevated md:p-16">
+          <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-neon/20 blur-3xl" />
+          <div className="pointer-events-none absolute -left-24 -bottom-24 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
+          <div className="relative grid items-center gap-10 md:grid-cols-2">
+            <div>
+              <div className="text-xs uppercase tracking-[0.22em] text-neon">Get started</div>
+              <h2 className="mt-3 font-display text-4xl font-medium tracking-tight sm:text-5xl">
+                Bring your library into the future.
+              </h2>
+              <p className="mt-4 max-w-md text-muted-foreground">
+                Talk to our specialists. We'll map a migration path tailored to your collection,
+                infrastructure and goals.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3 md:items-end">
+              <Link
+                to="/register"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-neon-gradient px-7 py-3.5 text-sm font-medium text-neon-foreground shadow-glow"
+              >
+                Request a Demo <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/login"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background/40 px-7 py-3.5 text-sm font-medium"
+              >
+                Sign in
+              </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -425,12 +417,36 @@ function CTA() {
 
 function Footer() {
   return (
-    <footer className="border-t border-border py-10">
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 text-xs text-muted-foreground sm:flex-row">
-        <div className="flex items-center gap-2">
-          <div className="grid h-6 w-6 place-items-center rounded-md bg-neon-gradient text-neon-foreground"><Library className="h-3 w-3" /></div>
-          <span>© {new Date().getFullYear()} Lumina Systems. All rights reserved.</span>
+    <footer className="border-t border-border py-12">
+      <div className="mx-auto grid max-w-7xl gap-8 px-6 md:grid-cols-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <div className="grid h-7 w-7 place-items-center rounded-md bg-neon-gradient text-neon-foreground">
+              <Library className="h-3.5 w-3.5" />
+            </div>
+            <span className="font-display text-base font-semibold">Lumina.</span>
+          </div>
+          <p className="mt-4 max-w-xs text-xs text-muted-foreground">
+            The AI operating system for modern libraries.
+          </p>
         </div>
+        {[
+          { h: "Product", l: ["Features", "Solutions", "Analytics", "Security"] },
+          { h: "Company", l: ["About", "Customers", "Careers", "Press"] },
+          { h: "Resources", l: ["Documentation", "Help center", "Status", "Contact"] },
+        ].map((col) => (
+          <div key={col.h}>
+            <div className="text-xs font-medium uppercase tracking-wider text-foreground">{col.h}</div>
+            <ul className="mt-4 space-y-2 text-xs text-muted-foreground">
+              {col.l.map((i) => (
+                <li key={i}><a href="#" className="hover:text-foreground">{i}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div className="mx-auto mt-10 flex max-w-7xl flex-col items-center justify-between gap-3 border-t border-border px-6 pt-6 text-xs text-muted-foreground sm:flex-row">
+        <span>© {new Date().getFullYear()} Lumina Systems. All rights reserved.</span>
         <div className="flex gap-5">
           <a href="#" className="hover:text-foreground">Privacy</a>
           <a href="#" className="hover:text-foreground">Terms</a>
